@@ -1,6 +1,6 @@
 package com.staxrt.tutorial;
 
-import com.staxrt.tutorial.model.User;
+import com.staxrt.tutorial.entity.UserEntity;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,21 +43,21 @@ public class ApplicationTests {
 
 	@Test
 	public void testGetUserById() {
-		User user = restTemplate.getForObject(getRootUrl() + "/users/1", User.class);
-		System.out.println(user.getFirstName());
-		Assert.assertNotNull(user);
+		UserEntity userEntity = restTemplate.getForObject(getRootUrl() + "/users/1", UserEntity.class);
+		System.out.println(userEntity.getFirstName());
+		Assert.assertNotNull(userEntity);
 	}
 
 	@Test
 	public void testCreateUser() {
-		User user = new User();
-		user.setEmail("admin@gmail.com");
-		user.setFirstName("admin");
-		user.setLastName("admin");
-		user.setCreatedBy("admin");
-		user.setUpdatedBy("admin");
+		UserEntity userEntity = new UserEntity();
+		userEntity.setEmail("admin@gmail.com");
+		userEntity.setFirstName("admin");
+		userEntity.setLastName("admin");
+		userEntity.setCreatedBy("admin");
+		userEntity.setUpdatedBy("admin");
 
-		ResponseEntity<User> postResponse = restTemplate.postForEntity(getRootUrl() + "/users", user, User.class);
+		ResponseEntity<UserEntity> postResponse = restTemplate.postForEntity(getRootUrl() + "/users", userEntity, UserEntity.class);
 		Assert.assertNotNull(postResponse);
 		Assert.assertNotNull(postResponse.getBody());
 	}
@@ -65,26 +65,26 @@ public class ApplicationTests {
 	@Test
 	public void testUpdatePost() {
 		int id = 1;
-		User user = restTemplate.getForObject(getRootUrl() + "/users/" + id, User.class);
-		user.setFirstName("admin1");
-		user.setLastName("admin2");
+		UserEntity userEntity = restTemplate.getForObject(getRootUrl() + "/users/" + id, UserEntity.class);
+		userEntity.setFirstName("admin1");
+		userEntity.setLastName("admin2");
 
-		restTemplate.put(getRootUrl() + "/users/" + id, user);
+		restTemplate.put(getRootUrl() + "/users/" + id, userEntity);
 
-		User updatedUser = restTemplate.getForObject(getRootUrl() + "/users/" + id, User.class);
-		Assert.assertNotNull(updatedUser);
+		UserEntity updatedUserEntity = restTemplate.getForObject(getRootUrl() + "/users/" + id, UserEntity.class);
+		Assert.assertNotNull(updatedUserEntity);
 	}
 
 	@Test
 	public void testDeletePost() {
 		int id = 2;
-		User user = restTemplate.getForObject(getRootUrl() + "/users/" + id, User.class);
-		Assert.assertNotNull(user);
+		UserEntity userEntity = restTemplate.getForObject(getRootUrl() + "/users/" + id, UserEntity.class);
+		Assert.assertNotNull(userEntity);
 
 		restTemplate.delete(getRootUrl() + "/users/" + id);
 
 		try {
-			user = restTemplate.getForObject(getRootUrl() + "/users/" + id, User.class);
+			userEntity = restTemplate.getForObject(getRootUrl() + "/users/" + id, UserEntity.class);
 		} catch (final HttpClientErrorException e) {
 			Assert.assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
 		}

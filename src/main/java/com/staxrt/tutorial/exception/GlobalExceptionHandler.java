@@ -31,7 +31,7 @@ import java.util.Date;
 /**
  * The type Global exception handler.
  *
- * @author Givantha Kalansuriya
+ * @author Michael Martin
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {

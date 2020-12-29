@@ -18,29 +18,27 @@
  *
  */
 
-package com.staxrt.tutorial.model;
+package com.staxrt.tutorial.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
 /**
- * The type User.
+ * The type UserEntity.
  *
- * @author Givantha Kalansuriya
+ * @author Michael Martin\
  */
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +52,9 @@ public class User {
 
     @Column(name = "email_address", nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -145,6 +146,24 @@ public class User {
         this.email = email;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
+  public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Sets password.
+     *
+     * @param password the password
+     */
+  public void setPassword(String password) {
+        this.password = password;
+    }
+
   /**
    * Gets created at.
    *
@@ -219,7 +238,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserEntity{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

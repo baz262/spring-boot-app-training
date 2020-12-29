@@ -1,13 +1,13 @@
 package com.staxrt.tutorial.repository;
 
-import com.staxrt.tutorial.model.User;
+import com.staxrt.tutorial.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * The interface User repository.
+ * The interface UserEntity repository.
  *
- * @author Givantha Kalansuriya
+ * @author Michael Martin\
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {}
+public interface UserRepository extends JpaRepository<UserEntity, Long> {}

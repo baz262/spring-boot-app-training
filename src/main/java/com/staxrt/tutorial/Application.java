@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * The type Application.
  *
- * @author Givantha Kalansuriya
+ * @author Michael Martin\
  */
 @SpringBootApplication
 public class Application {
