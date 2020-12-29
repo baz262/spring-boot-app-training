@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
  * @author Michael Martin\
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {}
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByEmail(String email);
+}
