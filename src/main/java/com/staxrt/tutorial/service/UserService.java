@@ -18,7 +18,7 @@ public class UserService {
 
     public UserEntity saveCustomer(final UserDto userData){
         UserEntity customerModel = populateUserData(userData);
-        return customerRepository.save(customerModel);
+        return userRepository.save(customerModel);
     }
 
     private UserEntity populateUserData(final UserDto userData){

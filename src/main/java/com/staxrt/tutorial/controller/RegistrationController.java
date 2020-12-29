@@ -1,32 +1,14 @@
-/*
- *
- *  Copyright (c) 2018-2020 Givantha Kalansuriya, This source is a part of
- *   Staxrt - sample application source code.
- *   http://staxrt.com
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- *
- */
-
 package com.staxrt.tutorial.controller;
 
 import com.staxrt.tutorial.data.UserDto;
 import com.staxrt.tutorial.entity.UserEntity;
 import com.staxrt.tutorial.exception.ResourceNotFoundException;
 import com.staxrt.tutorial.repository.UserRepository;
+import com.staxrt.tutorial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,56 +25,23 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class RegistrationController {
 
-  @Autowired
-  private UserRepository userRepository;
+  private static final String REGISTRATION_CONFIRMATION_PAGE ="registrationConfirmation";
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  private UserService userService;
 
-  /**
-   * Get all users list.
-   *
-   * @return the list
-   */
-  @GetMapping("/admin-get-users")
-  public List<UserEntity> getAllUsers() {
-    return userRepository.findAll();
+  @GetMapping("/register")
+  public String getRegistrationView(){
+    return "registration";
   }
 
-  /**
-   * Gets users by id.
-   *
-   * @param userId the user id
-   * @return the users by id
-   * @throws ResourceNotFoundException the resource not found exception
-   */
-  @GetMapping("/user/{id}")
-  public ResponseEntity<UserEntity> getUsersById(@PathVariable(value = "id") Long userId)
-      throws ResourceNotFoundException {
-    UserEntity userEntity =
-        userRepository
-            .findById(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("UserEntity not found on :: " + userId));
-    return ResponseEntity.ok().body(userEntity);
+  @PostMapping("/register")
+  public String customerRegistration(final UserDto user, final Model model){
+    userService.saveCustomer(user);
+    return REGISTRATION_CONFIRMATION_PAGE;
   }
 
-  /**
-   * Create userEntity userEntity.
-   *
-   * @param userEntity the userEntity
-   * @return the userEntity
-   */
-  @PostMapping("/register-user")
-  public UserEntity createUser(@Valid @RequestBody UserDto userDto) {
-    UserEntity userEntity = new UserEntity();
-    userEntity.setFirstName(userDto.getFirstName());
-    userEntity.setLastName(userDto.getLastName());
-    userEntity.setEmail(userDto.getEmail());
-    userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-    userEntity.setCreatedBy(userDto.getCreatedBy());
-    userEntity.setUpdatedBy(userDto.getUpdatedBy());
-    return userRepository.save(userEntity);
-  }
+  //TODO move below code to service class
 
   /**
    * Update user response entity.
